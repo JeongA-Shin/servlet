@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(name="helloServlet",urlPatterns="/hello")
+@WebServlet(name="helloServlet",urlPatterns="/hello") //패턴에 반드시 /을 붙여줘야 함, 이거 빼먹었다가 완전 오류남
 public class HelloServlet extends HttpServlet {
 
     //서블릿이 호출되면 이 service 메서드가 호출됨
