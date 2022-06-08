@@ -2,10 +2,10 @@ package group.servlet.web.frontcontroller;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 public class MyView {
 
@@ -22,4 +22,18 @@ public class MyView {
         requestDispatcher.forward(request,response);
     }
 
+    public void render(Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //jsp는 HttpServletRequest의 request를 씀
+        //따라서 건네 받은 모델을 request 에 set 해줘야 함!!!!!
+        modelToRequestAttribute(model,request);
+
+        //그리고 나서는 그냥 원래 하던대로 forward를 통해 jsp로 넘어감
+        RequestDispatcher dispatcher=request.getRequestDispatcher(viewPath);
+        dispatcher.forward(request,response);
+    }
+
+    private void modelToRequestAttribute(Map<String, Object> model,
+                                         HttpServletRequest request) {
+        model.forEach((key, value) -> request.setAttribute(key, value));
+    }
 }
