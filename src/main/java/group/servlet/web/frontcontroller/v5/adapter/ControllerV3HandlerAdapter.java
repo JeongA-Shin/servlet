@@ -19,7 +19,7 @@ public class ControllerV3HandlerAdapter implements MyHandlerAdapter {
     }
 
 
-    //진짜 어댑터의 본격적인 역할
+    //진짜 ControllerV3용 어댑터의 본격적인 역할
     //어댑터가 supports하는 해당 핸들러를 호출하고, 그 핸들러로부터 modelView를 리턴 받아옴
     @Override
     public ModelView handle(HttpServletRequest request, HttpServletResponse response, Object handler) throws ServletException, IOException {
