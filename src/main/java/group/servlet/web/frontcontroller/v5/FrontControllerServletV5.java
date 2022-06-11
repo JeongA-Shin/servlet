@@ -5,7 +5,11 @@ import group.servlet.web.frontcontroller.MyView;
 import group.servlet.web.frontcontroller.v3.Controller.MemberFormControllerV3;
 import group.servlet.web.frontcontroller.v3.Controller.MemberListControllerV3;
 import group.servlet.web.frontcontroller.v3.Controller.MemberSaveControllerV3;
+import group.servlet.web.frontcontroller.v4.Controller.MemberFormControllerV4;
+import group.servlet.web.frontcontroller.v4.Controller.MemberListControllerV4;
+import group.servlet.web.frontcontroller.v4.Controller.MemberSaveControllerV4;
 import group.servlet.web.frontcontroller.v5.adapter.ControllerV3HandlerAdapter;
+import group.servlet.web.frontcontroller.v5.adapter.ControllerV4HandlerAdapter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -43,7 +47,7 @@ public class FrontControllerServletV5 extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //이제 프론트 컨트롤러의 로직 시작
+        //이제 프론트 컨트롤러의 로직
 
         //매핑 맵에서 해당되는 핸들러를 가져옴
         Object handler = getHandler(request);
@@ -56,7 +60,7 @@ public class FrontControllerServletV5 extends HttpServlet {
 
         //위에서 찾은 현재 url의 핸들러에 맞는!!! 핸들러 어댑터를 찾음
         MyHandlerAdapter adapter= getHandlerAdapter(handler);
-        //어댑터가 supports하는 해당 핸들러를 호출하고, 그 핸들러로부터 modelView를 리턴 받아옴
+        //어댑터가 자신의 해당 핸들러를 호출하고, 그 핸들러로부터 modelView를 리턴 받아옴
         ModelView mv = adapter.handle(request,response,handler);
 
         MyView view = viewResolver(mv.getViewName());
@@ -91,10 +95,17 @@ public class FrontControllerServletV5 extends HttpServlet {
         handlerMappingMap.put("/front-controller/v5/v3/members/new-form", new MemberFormControllerV3());
         handlerMappingMap.put("/front-controller/v5/v3/members/save", new MemberSaveControllerV3());
         handlerMappingMap.put("/front-controller/v5/v3/members", new MemberListControllerV3());
+
+        //V4 추가
+        handlerMappingMap.put("/front-controller/v5/v4/members/new-form", new MemberFormControllerV4());
+        handlerMappingMap.put("/front-controller/v5/v4/members/save", new MemberSaveControllerV4());
+        handlerMappingMap.put("/front-controller/v5/v4/members", new MemberListControllerV4());
     }
 
     private void initHandlerAdapters() {
         handlerAdapters.add(new ControllerV3HandlerAdapter());
+        //ControllerV4용 어댑터 추가됨
+        handlerAdapters.add(new ControllerV4HandlerAdapter());
     }
 
     private MyView viewResolver(String viewName) {
